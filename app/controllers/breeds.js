@@ -1,29 +1,36 @@
 import Controller from '@ember/controller';
+import $ from 'jquery';
 
 export default Controller.extend({
   queryParams: [ 'breed' ],
+  breedData: null,
 
+  init() {
+    this._super(...arguments);
+
+    // Handles detecting changes to breed caused by the queryParam changes
+    this.addObserver('breed', this, 'updateBreedData');
+  },
+
+  updateBreedData(sender, key, value, rev) {
+    // ajax to get the breed data
+    $.getJSON(`${this.get(key)}.json`)
+    .then((data) => {
+      // update breedData with retrieved data on success
+      return this.set('breedData', data);
+    })
+    .catch(() => {
+      // update breedData with null on fail
+      return this.set('breedData', null);
+    });
+  },
   actions: {
     breedSearch(searchData) {
-      // create qp object
-      var qp = {
+      // adjust the queryParams
+      this.transitionToRoute({
         queryParams: {
           breed: searchData
         }
-      };
-
-      // attempts to get the breedQuery json from the public dir
-      return $.getJSON(`${searchData}.json`).then((data) => {
-        this.set('model', data);
-
-        this.notifyPropertyChange('model')
-        // transition with data recieved
-        return this.transitionToRoute(data, qp);
-      })
-      .catch((err) => {
-        this.set('model', null);
-        // transition with null model
-        return this.transitionToRoute(null, qp);
       });
     }
   }

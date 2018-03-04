@@ -1,5 +1,17 @@
 {{search-bar submitAction=(action 'breedSearch')}}
 
-{{log data}}
+<br>
+
+{{#if breedData}}
+    <h3>{{breed}}</h3>
+    <dl>
+        {{#each-in breedData as |key value|}}
+            <dt>{{key}}</dt>
+            <dd>{{value}}</dd>
+        {{/each-in}}
+    </dl>
+{{else}}
+  Could not find the breed <em>{{breed}}</em>
+{{/if}}
 
 {{outlet}}
