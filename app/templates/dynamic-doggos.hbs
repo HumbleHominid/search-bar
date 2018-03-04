@@ -1,0 +1,15 @@
+{{search-bar submitAction=(action 'breedSearch')}}
+
+<br>
+
+{{#if model.data}}
+    <h3>{{model.breed}}</h3>
+    <dl>
+        {{#each-in model.data as |key value|}}
+            <dt>{{key}}</dt>
+            <dd>{{value}}</dd>
+        {{/each-in}}
+    </dl>
+{{else}}
+    Could not find the breed <em>{{model.breed}}</em>
+{{/if}}

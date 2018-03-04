@@ -7,7 +7,11 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
-  this.route('breeds');
+  this.route('breeds', {
+    path: '/queryParams'
+  });
+
+  this.route('dynamic-doggos', { path: '/dynamic/:doggo' });
 });
 
 export default Router;
